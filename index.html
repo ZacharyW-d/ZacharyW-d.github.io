@@ -1,1 +1,47 @@
-Hello World
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", { packages: ["gantt"] })
+google.charts.setOnLoadCallback(initialize)
+
+
+function initialize() {
+  var opts = {sendMethod: 'auto'};
+  // Replace the data source URL on next line with your data source URL.
+  var URL = 'https://docs.google.com/spreadsheets/d/1XtxS6uPdnz49n4hCu5coNWVa_e7r7kRRGnOQmNO0D38/gviz/tq?gid=0';
+  var query = new google.visualization.Query(URL, opts)  
+  
+  // Send the query with a callback function.
+  query.send(handleQueryResponse);
+}
+
+function handleQueryResponse(response) {
+
+  if (response.isError()) {
+    alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+    return;
+  }
+
+  var data = response.getDataTable();
+
+  var options = {
+    height: 400,
+    gantt: {
+      trackHeight: 30,
+    },
+  };
+
+  var chart = new google.visualization.Gantt(
+    document.getElementById("chart_div"));
+
+  chart.draw(data, options);
+}
+
+
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>
+</html>
